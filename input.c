@@ -12,3 +12,4 @@ int input(int * age)
          exit(0);
     }
 }
+// use the format--   int ram = input(&ram);
