@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "ch5ques6.C": "cpp"
+        "ch5ques6.C": "cpp",
+        "experiment.C": "cpp"
     }
 }
