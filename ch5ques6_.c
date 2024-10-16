@@ -8,11 +8,27 @@ typedef struct node
     struct node *next;
 }dataTypeNode;
 
+
 //using linked list for the task
+
+// declared head as a global variable
+dataTypeNode  headnode={0,NULL};
+dataTypeNode * head = &headnode;
+
+
+
+
+
 
 int input(dataTypeNode * number)
 {
-    if(scanf("%d",number->data)==1)
+    if(scanf("%d",&number->data)==1)
+
+    /*"&" is required in this because 
+    the data in the structure is of int type
+    and scanf directly puts value in it*/
+
+
     {   
         return number->data;
     }
@@ -23,21 +39,31 @@ int input(dataTypeNode * number)
     }
 }
 // use the format--   int ram = input(&ram);
-    dataTypeNode * head =NULL;
-dataTypeNode * nodecreate(dataTypeNode * temp)
+
+
+
+
+
+
+
+dataTypeNode * nodecreate(dataTypeNode * localHead)
 {
     dataTypeNode * newnode  = (dataTypeNode *)(malloc(sizeof(dataTypeNode)));
-
     //memory allocated for new node
-
-    if(temp->next==NULL)
+    dataTypeNode * temp=localHead;
+     while(temp!=NULL)
+    {
+        temp=temp->next;
+    }
+    if(localHead->next==NULL)
     {
         
-        //for first element
         
-        head=newnode;
+        
+        localHead->next=newnode;
         printf("enter (data) upcoming number");
-        newnode->data=(int)input((newnode));newnode->next=NULL;
+        newnode->data=(int)input((newnode));
+        newnode->next=NULL;
     }
     else
     {
@@ -46,50 +72,71 @@ dataTypeNode * nodecreate(dataTypeNode * temp)
         
         temp->next=newnode;
         printf("enter (data)upcoming number");
-        newnode->data=(int)input((newnode));
+        newnode->data=input((newnode));
         newnode->next=NULL;
     }
-    return temp;
+    return localHead;
     
 }
 
 
-int FuntionForMax(dataTypeNode * head)
+
+
+
+
+
+dataTypeNode * FuntionForMax(dataTypeNode * head)
 {
     dataTypeNode * temp;
     temp=head;
-    int max=0;
+    int max=INT_MIN;
+    dataTypeNode * maxadd =head;
 
-    while(temp!=NULL)
+    while(temp->next!=NULL)
     {
         if((temp->data)>max)//max catcher
         {
             max=temp->data;
+            maxadd=temp;
         }
         temp=temp->next;
     }
 
-    return max;
+    return maxadd;
 }
 
 
-int FuntionForMin(dataTypeNode * head)
+
+
+
+
+
+dataTypeNode * FuntionForMin(dataTypeNode * head)
 {
     dataTypeNode * temp;
     temp=head;
     int min=INT_MAX;
+    dataTypeNode * minadd=head;
 
-    while(temp!=NULL)
+    while(temp->next!=NULL)
     {
         if((temp->data)<min)//min catcher
         {
             min=temp->data;
+            minadd=temp;
         }
         temp=temp->next;
     }
 
-    return min;
+    return minadd;
 }
+
+
+
+
+
+
+
 
 
 int main()
@@ -97,38 +144,26 @@ int main()
     //ask user to input the 
 
     int counterOfNumberOfInputs=0;
-    dataTypeNode * storedTempInMain;
+    dataTypeNode * headMain;
     while (1)
         {
             // purpose of this if? 
-            if(counterOfNumberOfInputs==0)
-            {
-                storedTempInMain=head;
-                
-                storedTempInMain=nodecreate(storedTempInMain);
-                counterOfNumberOfInputs ++;
-            }
-            else
-            {
+           
+                printf("do you want further numbers? type y/n \n ");
                 char inp=getchar();
                 if(inp!='y')
                 {
-                    goto tag;
+                    goto outOfLoop;
                 }
-                storedTempInMain=nodecreate(storedTempInMain);
-                printf("do you want further numbers? type y/n\n");
-
-                /*this sends the last temp used in main and updates the temp used in main. 
-                i did not want to traverse the linked list every time so i chose to make this a temp dependant program*/
-
-
-                counterOfNumberOfInputs ++;
-            }
+                headMain=nodecreate(head); 
+                char catch=getchar();
+ 
         }
-    tag:
-        int rangeMax =  FuntionForMax(head); 
-        int rangeMin =  FuntionForMin(head);
-        printf("%D\n-%d\n is the range of the list entered",rangeMin,rangeMax);
+        
+    outOfLoop:
+        dataTypeNode * rangeMax =  FuntionForMax(headMain); 
+        dataTypeNode * rangeMin =  FuntionForMin(headMain);
+        printf("%d-%d is the range of the list entered",rangeMin->data,rangeMax->data);
         
 
 
